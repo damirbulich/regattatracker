@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RegattaTracker</string>
+    <string name="start">Start</string>
+    <string name="prati_u_ivo">Prati uživo</string>
+    <string name="pregledaj_regate">Pregledaj regate</string>
+    <string name="promjeni_brod">Promjeni brod</string>
 </resources>
