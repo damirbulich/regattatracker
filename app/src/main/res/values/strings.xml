@@ -4,4 +4,6 @@
     <string name="prati_u_ivo">Prati uživo</string>
     <string name="pregledaj_regate">Pregledaj regate</string>
     <string name="promjeni_brod">Promjeni brod</string>
+    <string name="dodaj">Dodaj</string>
+    <string name="dodaj_novi_brod">Dodaj novi brod</string>
 </resources>
