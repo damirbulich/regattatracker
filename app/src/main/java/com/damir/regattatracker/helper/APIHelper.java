@@ -28,7 +28,7 @@ public class APIHelper {
                         // Display the first 500 characters of the response string.
                         try {
                             JSONArray data = response.getJSONArray("data");
-                            myCallback.onCallback(data.toString(), null);
+                            myCallback.onGetCallback(data.toString(), null);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -39,7 +39,7 @@ public class APIHelper {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         String errorString = error.networkResponse.toString();
-                        myCallback.onCallback(null, errorString);
+                        myCallback.onGetCallback(null, errorString);
                     }
                 });
 

@@ -2,5 +2,6 @@ package com.damir.regattatracker.helper;
 
 public interface APICallback {
 
-    void onCallback(String response, String error);
+    void onGetCallback(String response, String error);
+    void onPostCallback(String response, String error);
 }

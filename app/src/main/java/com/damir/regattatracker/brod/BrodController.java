@@ -23,10 +23,15 @@ public class BrodController implements APICallback {
     }
 
     @Override
-    public void onCallback(String response, String error) {
+    public void onGetCallback(String response, String error) {
         Gson g = new Gson();
         Type tip = new TypeToken<ArrayList<Brod>>() {}.getType();
         ArrayList<Brod> odg = g.fromJson(response, tip);
         myCallback.onBoatCallback(odg, null);
+    }
+
+    @Override
+    public void onPostCallback(String response, String error) {
+
     }
 }
