@@ -20,12 +20,10 @@ public class APIHelper {
         myCallback = callerClass;
         final RequestQueue[] queue = {Volley.newRequestQueue(context)};
 
-        // Request a string response from the provided URL.
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Display the first 500 characters of the response string.
                         try {
                             JSONArray data = response.getJSONArray("data");
                             myCallback.onGetCallback(data.toString(), null);
