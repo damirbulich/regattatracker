@@ -8,13 +8,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.damir.regattatracker.brod.BoatCallback;
+import com.damir.regattatracker.brod.Brod;
+import com.damir.regattatracker.brod.BrodController;
+import com.damir.regattatracker.helper.APICallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OdaberiBrodActivity extends AppCompatActivity implements MyCallback{
+public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallback {
     EditText naziv;
     List<Brod> sviBrodovi;
     @Override
@@ -23,7 +27,8 @@ public class OdaberiBrodActivity extends AppCompatActivity implements MyCallback
         setContentView(R.layout.activity_odaberi_brod);
         naziv = findViewById(R.id.editText);
         sviBrodovi = new ArrayList<Brod>();
-        APIHelper.getRequest(this, this, "https://test.dbulic.com/api/boats");
+        BrodController brodController = new BrodController(this);
+        brodController.getBrodovi(this);
     }
 
     public void vratiNoviBrod(View view){
@@ -36,13 +41,11 @@ public class OdaberiBrodActivity extends AppCompatActivity implements MyCallback
     }
 
     @Override
-    public void onCallback(String response, String error) {
+    public void onBoatCallback(ArrayList<Brod> odg, String error) {
         if (error != null){
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             return;
         }
-        Gson g = new Gson();
-        Type tip = new TypeToken<ArrayList<Brod>>() {}.getType();
-        sviBrodovi = g.fromJson(response, tip);
+        sviBrodovi = odg;
     }
 }

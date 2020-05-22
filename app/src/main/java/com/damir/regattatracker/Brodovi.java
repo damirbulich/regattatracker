@@ -1,6 +1,6 @@
 package com.damir.regattatracker;
 
-import java.util.ArrayList;
+import com.damir.regattatracker.brod.Brod;
 
 public class Brodovi {
 

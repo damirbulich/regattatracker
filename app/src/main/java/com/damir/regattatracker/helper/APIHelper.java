@@ -1,4 +1,4 @@
-package com.damir.regattatracker;
+package com.damir.regattatracker.helper;
 
 import android.content.Context;
 
@@ -8,19 +8,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-
 public class APIHelper {
-    private static MyCallback myCallback;
+    private static APICallback myCallback;
 
-    public static void getRequest(Context context, MyCallback callerClass, String url){
+    public static void getRequest(Context context, APICallback callerClass, String url){
         myCallback = callerClass;
         final RequestQueue[] queue = {Volley.newRequestQueue(context)};
 

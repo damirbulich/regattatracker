@@ -1,4 +1,4 @@
-package com.damir.regattatracker;
+package com.damir.regattatracker.helper;
 
 public interface PostData {
     String serialiseData();

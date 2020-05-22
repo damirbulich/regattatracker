@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.damir.regattatracker.brod.Brod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -1,6 +1,8 @@
-package com.damir.regattatracker;
+package com.damir.regattatracker.brod;
 
-public class Brod implements PostData{
+import com.damir.regattatracker.helper.PostData;
+
+public class Brod implements PostData {
     private int id;
     private String naziv;
 
