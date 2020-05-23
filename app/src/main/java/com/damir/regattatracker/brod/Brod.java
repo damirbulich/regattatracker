@@ -6,6 +6,10 @@ public class Brod implements PostData {
     private int id;
     private String name;
 
+    public Brod(String _name){
+        this.setName(_name);
+    }
+
     public Brod(int _id, String _name){
         this.setId(_id);
         this.setName(_name);

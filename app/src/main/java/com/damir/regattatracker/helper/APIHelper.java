@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -38,6 +39,35 @@ public class APIHelper {
                     public void onErrorResponse(VolleyError error) {
                         String errorString = error.networkResponse.toString();
                         myCallback.onGetCallback(null, errorString);
+                    }
+                });
+
+        queue[0].add(request);
+    }
+
+    public static void postRequest(Context context, APICallback callerClass, String url, PostData data) throws JSONException {
+        myCallback = callerClass;
+        final RequestQueue[] queue = {Volley.newRequestQueue(context)};
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(data.serialiseData()),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject data = response.getJSONObject("data");
+                            myCallback.onPostCallback(data.toString(), null);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        myCallback = null;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorString = error.networkResponse.toString();
+                        myCallback.onPostCallback(null, errorString);
+                        myCallback = null;
                     }
                 });
 

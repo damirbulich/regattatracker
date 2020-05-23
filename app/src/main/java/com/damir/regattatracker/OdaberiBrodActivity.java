@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -14,6 +15,9 @@ import com.damir.regattatracker.brod.BoatCallback;
 import com.damir.regattatracker.brod.Brod;
 import com.damir.regattatracker.brod.BrodAdapter;
 import com.damir.regattatracker.brod.BrodController;
+
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +36,13 @@ public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallba
     }
 
     public void vratiNoviBrod(View view){
-        Intent intent = getIntent();
         //TODO napraviti dohvat s apija i spremiti u listu brodova, ako se kreira novi brod poslati na api i vratiti isti
-        intent.putExtra("naziv", naziv.getText().toString());
-        intent.putExtra("id", "123");
-        setResult(RESULT_OK, intent);
-        finish();
+        Brod novi = new Brod(naziv.getText().toString());
+        try {
+            BrodController.postBrodovi(this, this, novi);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -50,10 +55,25 @@ public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallba
         listView = findViewById(R.id.lista);
         BrodAdapter adapter = new BrodAdapter(this, sviBrodovi);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = getIntent();
+                intent.putExtra("id", String.valueOf(sviBrodovi.get(position).getId()));
+                intent.putExtra("naziv", sviBrodovi.get(position).getName());
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     @Override
-    public void onPostBoatCallback() {
-
+    public void onPostBoatCallback(Brod odg, String error) {
+        Toast.makeText(this, "Uspjesno dodan novi brod: "+odg.getName(), Toast.LENGTH_LONG).show();
+        Intent intent = getIntent();
+        intent.putExtra("id", String.valueOf(odg.getId()));
+        intent.putExtra("naziv", odg.getName());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
