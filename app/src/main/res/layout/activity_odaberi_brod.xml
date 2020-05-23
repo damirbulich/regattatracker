@@ -36,6 +36,7 @@
         app:layout_constraintTop_toTopOf="@+id/editText" />
 
     <ListView
+        android:id="@+id/lista"
         android:layout_width="412dp"
         android:layout_height="638dp"
         android:layout_marginTop="16dp"

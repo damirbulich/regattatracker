@@ -4,16 +4,16 @@ import com.damir.regattatracker.helper.PostData;
 
 public class Brod implements PostData {
     private int id;
-    private String naziv;
+    private String name;
 
-    public Brod(int _id, String _naziv){
+    public Brod(int _id, String _name){
         this.setId(_id);
-        this.setNaziv(_naziv);
+        this.setName(_name);
     }
 
     @Override
     public String serialiseData() {
-        return "{ \"naziv\":\""+ this.getNaziv() +"\"}";
+        return "{ \"name\":\""+ this.getName() +"\"}";
     }
 
     public int getId() {
@@ -24,11 +24,11 @@ public class Brod implements PostData {
         this.id = id;
     }
 
-    public String getNaziv() {
-        return naziv;
+    public String getName() {
+        return name;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
+    public void setName(String name) {
+        this.name = name;
     }
 }

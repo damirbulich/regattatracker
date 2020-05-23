@@ -12,22 +12,30 @@ import java.util.ArrayList;
 
 public class BrodController implements APICallback {
 
-    private BoatCallback myCallback;
+    private static BoatCallback myCallback;
+    private static BrodController instance;
 
-    public BrodController(BoatCallback _boatCallback){
-        myCallback = _boatCallback;
+    public static void setInstance(){
+        if(instance == null)
+            instance = new BrodController();
     }
 
-    public void getBrodovi(Context context){
-        APIHelper.getRequest(context, this, "https://test.dbulic.com/api/boats");
+    public static void getBrodovi(Context context, BoatCallback _boatCallback){
+        setInstance();
+        myCallback = _boatCallback;
+        APIHelper.getRequest(context, instance, "https://test.dbulic.com/api/brodovi");
     }
 
     @Override
     public void onGetCallback(String response, String error) {
+        if(error!=null) {
+            myCallback.onGetBoatCallback(null, error);
+            return;
+        }
         Gson g = new Gson();
         Type tip = new TypeToken<ArrayList<Brod>>() {}.getType();
         ArrayList<Brod> odg = g.fromJson(response, tip);
-        myCallback.onBoatCallback(odg, null);
+        myCallback.onGetBoatCallback(odg, null);
     }
 
     @Override

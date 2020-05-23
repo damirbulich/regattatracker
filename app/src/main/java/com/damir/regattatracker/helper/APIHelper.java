@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class APIHelper {
-    private static APICallback myCallback;
+    private static APICallback myCallback; // ovo mozda ne radi kad se dvaput isto vremeno pozove
 
     public static void getRequest(Context context, APICallback callerClass, String url){
         myCallback = callerClass;

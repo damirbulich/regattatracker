@@ -5,30 +5,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.damir.regattatracker.brod.BoatCallback;
 import com.damir.regattatracker.brod.Brod;
+import com.damir.regattatracker.brod.BrodAdapter;
 import com.damir.regattatracker.brod.BrodController;
-import com.damir.regattatracker.helper.APICallback;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallback {
     EditText naziv;
-    List<Brod> sviBrodovi;
+    ArrayList<Brod> sviBrodovi;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_odaberi_brod);
         naziv = findViewById(R.id.editText);
         sviBrodovi = new ArrayList<Brod>();
-        BrodController brodController = new BrodController(this);
-        brodController.getBrodovi(this);
+        BrodController.getBrodovi(this, this);
+
     }
 
     public void vratiNoviBrod(View view){
@@ -41,11 +41,19 @@ public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallba
     }
 
     @Override
-    public void onBoatCallback(ArrayList<Brod> odg, String error) {
+    public void onGetBoatCallback(ArrayList<Brod> odg, String error) {
         if (error != null){
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             return;
         }
         sviBrodovi = odg;
+        listView = findViewById(R.id.lista);
+        BrodAdapter adapter = new BrodAdapter(this, sviBrodovi);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPostBoatCallback() {
+
     }
 }

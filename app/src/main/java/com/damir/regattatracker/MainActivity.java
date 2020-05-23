@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         loadBrod();
         naziv = findViewById(R.id.textView);
         if(mojBrod!=null){
-            naziv.setText("Trenutni brod: "+mojBrod.getNaziv());
+            naziv.setText("Trenutni brod: "+mojBrod.getName());
         }else{
             naziv.setText("Nije odabran brod!");
         }
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("id-naziv", id+" "+ime);
                 mojBrod = new Brod(id, ime);
                 if(mojBrod!=null){
-                    naziv.setText("Trenutni brod: "+mojBrod.getNaziv());
+                    naziv.setText("Trenutni brod: "+mojBrod.getName());
                 }else{
                     naziv.setText("Nije odabran brod!");
                 }
