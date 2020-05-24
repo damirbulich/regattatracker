@@ -70,10 +70,7 @@ public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallba
     @Override
     public void onPostBoatCallback(Brod odg, String error) {
         Toast.makeText(this, "Uspjesno dodan novi brod: "+odg.getName(), Toast.LENGTH_LONG).show();
-        Intent intent = getIntent();
-        intent.putExtra("id", String.valueOf(odg.getId()));
-        intent.putExtra("naziv", odg.getName());
-        setResult(RESULT_OK, intent);
-        finish();
+
+        BrodController.getBrodovi(this, this);
     }
 }
