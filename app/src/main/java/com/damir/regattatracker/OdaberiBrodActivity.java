@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.damir.regattatracker.brod.Brod;
 import com.damir.regattatracker.brod.BrodAdapter;
-import com.damir.regattatracker.helper.APICallback;
-import com.damir.regattatracker.helper.APIHelper;
+import com.damir.regattatracker.API.APICallback;
+import com.damir.regattatracker.API.APIHelper;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;

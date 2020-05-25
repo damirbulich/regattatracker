@@ -1,4 +1,4 @@
-package com.damir.regattatracker.helper;
+package com.damir.regattatracker.API;
 
 public interface APICallback {
 
