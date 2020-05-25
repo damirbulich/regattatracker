@@ -8,14 +8,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+
 public class APIHelper {
 
-    public static void getRequest(Context context, final APICallback callerClass, String url){
+    /**
+     * Dohvaca podatke get requestom sa APIja
+     *
+     * @param context "Kontekst aktivnost koji poziva API"
+     * @param callerClass "Klasa koja poziva API, mora implementirati APICallback sučelje"
+     * @param url "Url APIja, endpoint s kojeg se dohvacaju podatci"
+     * @param tip "Tip podatka koji se vraća"
+     */
+    public static void getRequest(Context context, final APICallback callerClass, String url, final Type tip){
         final RequestQueue[] queue = {Volley.newRequestQueue(context)};
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -24,7 +35,8 @@ public class APIHelper {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray data = response.getJSONArray("data");
-                            callerClass.onGetCallback(data.toString(), null);
+                            Gson g = new Gson();
+                            callerClass.onGetCallback(g.fromJson(data.toString(), tip), null);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -43,7 +55,16 @@ public class APIHelper {
         queue[0].add(request);
     }
 
-    public static void postRequest(Context context, final APICallback callerClass, String url, PostData data) throws JSONException {
+    /**
+     * Šalje podatke post requestom na API
+     *
+     * @param context "Kontekst aktivnost koji poziva API"
+     * @param callerClass "Klasa koja poziva API, mora implementirati APICallback sučelje"
+     * @param url "Url APIja, endpoint s kojeg se dohvacaju podatci"
+     * @param data "Podatci koji se šalju post requestom, moralju implementirati PostData sučelje"
+     * @param tip "Tip podatka koji se vraća"
+     */
+    public static void postRequest(Context context, final APICallback callerClass, String url, PostData data, final Type tip) throws JSONException {
         final RequestQueue[] queue = {Volley.newRequestQueue(context)};
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(data.serialiseData()),
@@ -52,7 +73,8 @@ public class APIHelper {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject data = response.getJSONObject("data");
-                            callerClass.onPostCallback(data.toString(), null);
+                            Gson g = new Gson();
+                            callerClass.onPostCallback(g.fromJson(data.toString(), tip), null);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
