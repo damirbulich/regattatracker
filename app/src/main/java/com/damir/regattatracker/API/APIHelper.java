@@ -1,6 +1,7 @@
 package com.damir.regattatracker.API;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,11 +22,11 @@ public class APIHelper {
     /**
      * Dohvaca podatke get requestom sa APIja
      *
-     * @param context "Kontekst aktivnost koji poziva API"
-     * @param callerClass "Klasa koja poziva API, mora implementirati APICallback sučelje"
-     * @param url "Url APIja, endpoint s kojeg se dohvacaju podatci"
-     * @param tip "Tip podatka koji se vraća"
-     */
+     * @param context Kontekst aktivnost koja poziva API
+     * @param callerClass Klasa koja poziva API, mora implementirati APICallback sucelje
+     * @param url Url APIja, endpoint s kojeg se dohvacaju podatci
+     * @param tip Tip podatka koji se vraca
+     **/
     public static void getRequest(Context context, final APICallback callerClass, String url, final Type tip){
         final RequestQueue[] queue = {Volley.newRequestQueue(context)};
 
@@ -36,7 +37,8 @@ public class APIHelper {
                         try {
                             JSONArray data = response.getJSONArray("data");
                             Gson g = new Gson();
-                            callerClass.onGetCallback(g.fromJson(data.toString(), tip), null);
+                            Log.i("type: ", tip.toString());
+                            callerClass.onGetCallback(g.fromJson(data.toString(), tip), null, tip);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -47,7 +49,7 @@ public class APIHelper {
                     public void onErrorResponse(VolleyError error) {
                         if(error != null){
                             String errorString = error.toString();
-                            callerClass.onGetCallback(null, errorString);
+                            callerClass.onGetCallback(null, errorString, null);
                         }
                     }
                 });
@@ -58,11 +60,11 @@ public class APIHelper {
     /**
      * Šalje podatke post requestom na API
      *
-     * @param context "Kontekst aktivnost koji poziva API"
-     * @param callerClass "Klasa koja poziva API, mora implementirati APICallback sučelje"
-     * @param url "Url APIja, endpoint s kojeg se dohvacaju podatci"
-     * @param data "Podatci koji se šalju post requestom, moralju implementirati PostData sučelje"
-     * @param tip "Tip podatka koji se vraća"
+     * @param context Kontekst aktivnost koji poziva API
+     * @param callerClass Klasa koja poziva API, mora implementirati APICallback sucelje
+     * @param url Url APIja, endpoint s kojeg se dohvacaju podatci
+     * @param data Podatci koji se salju post requestom, moralju implementirati PostData sucelje
+     * @param tip Tip podatka koji se vraca
      */
     public static void postRequest(Context context, final APICallback callerClass, String url, PostData data, final Type tip) throws JSONException {
         final RequestQueue[] queue = {Volley.newRequestQueue(context)};
@@ -74,7 +76,7 @@ public class APIHelper {
                         try {
                             JSONObject data = response.getJSONObject("data");
                             Gson g = new Gson();
-                            callerClass.onPostCallback(g.fromJson(data.toString(), tip), null);
+                            callerClass.onPostCallback(g.fromJson(data.toString(), tip), null, tip);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -84,7 +86,7 @@ public class APIHelper {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         String errorString = error.networkResponse.toString();
-                        callerClass.onPostCallback(null, errorString);
+                        callerClass.onPostCallback(null, errorString, null);
                     }
                 });
 

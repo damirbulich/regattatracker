@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         if(mojBrod!=null){
             naziv.setText("Trenutni brod: "+mojBrod.getName());
         }else{
-            naziv.setText("Nije odabran brod!");
+            naziv.setText("");
         }
     }
     public void start(View v){
@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, OdaberiBrodActivity.class);
             startActivityForResult(i, 1);
         } else {
-            //Intent i = new Intent();
+            Intent i = new Intent(this, BoatTrackActivity.class);
+            startActivity(i);
         }
     }
 
@@ -47,12 +48,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /* Prezentacija Aktivnosti na Merlinu */
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 int id = Integer.parseInt(data.getStringExtra("id"));
                 String ime = data.getStringExtra("naziv");
-                Log.i("id-naziv", id+" "+ime);
+                //Log.i("id-naziv", id+" "+ime);
                 mojBrod = new Brod(id, ime);
                 if(mojBrod!=null){
                     naziv.setText("Trenutni brod: "+mojBrod.getName());
