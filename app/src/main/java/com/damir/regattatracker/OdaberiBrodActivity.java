@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,7 +18,6 @@ import com.damir.regattatracker.brod.BrodController;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallback {
     EditText naziv;
@@ -32,11 +30,9 @@ public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallba
         naziv = findViewById(R.id.editText);
         sviBrodovi = new ArrayList<Brod>();
         BrodController.getBrodovi(this, this);
-
     }
 
     public void vratiNoviBrod(View view){
-        //TODO napraviti dohvat s apija i spremiti u listu brodova, ako se kreira novi brod poslati na api i vratiti isti
         Brod novi = new Brod(naziv.getText().toString());
         try {
             BrodController.postBrodovi(this, this, novi);
@@ -70,7 +66,10 @@ public class OdaberiBrodActivity extends AppCompatActivity implements BoatCallba
     @Override
     public void onPostBoatCallback(Brod odg, String error) {
         Toast.makeText(this, "Uspjesno dodan novi brod: "+odg.getName(), Toast.LENGTH_LONG).show();
-
-        BrodController.getBrodovi(this, this);
+        Intent intent = getIntent();
+        intent.putExtra("id", String.valueOf(odg.getId()));
+        intent.putExtra("naziv", odg.getName());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
