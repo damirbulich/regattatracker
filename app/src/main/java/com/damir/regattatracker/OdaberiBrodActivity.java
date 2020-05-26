@@ -35,11 +35,17 @@ public class OdaberiBrodActivity extends AppCompatActivity implements APICallbac
     }
 
     public void vratiNoviBrod(View view){
-        Brod novi = new Brod(naziv.getText().toString());
-        try {
-            APIHelper.postRequest(this, this,"https://test.dbulic.com/api/brodovi", novi, new TypeToken<Brod>(){}.getType());
-        } catch (JSONException e) {
-            e.printStackTrace();
+        String ime = naziv.getText().toString().trim();
+        if(!ime.equals("")) {
+            Brod novi = new Brod(ime);
+            try {
+                APIHelper.postRequest(this, this, "https://test.dbulic.com/api/brodovi", novi, new TypeToken<Brod>() {
+                }.getType());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Toast.makeText(this, "Unesite ime broda!", Toast.LENGTH_SHORT).show();
         }
     }
 
